@@ -1,0 +1,35 @@
+@startuml
+left to right direction
+actor "User" as user
+actor "Data Engineer" as eng
+actor "Binance" as bin
+actor "Accountant" as acc
+rectangle CryptoCurencies {
+  usecase "Request Help" as UC1
+  usecase "Onborading" as UC2
+  usecase "Request Notification" as UC3
+  usecase "Get Price" as UC4
+  usecase "Draw Chart" as UC5
+}
+rectangle Data{
+  usecase "Get usage statistics" as UC6
+}
+rectangle Accounting{
+  usecase "Buy Premium Subscription" as UC7
+  usecase "Renew Subscription" as UC8
+}
+user --> UC1
+user --> UC2
+user --> UC3
+user --> UC4
+user --> UC5
+eng --> UC6
+bin -up-> UC4
+bin -up-> UC5
+bin -up-> UC3
+acc -up-> UC7
+acc -up-> UC8
+user --> UC7
+user --> UC8
+
+@enduml
