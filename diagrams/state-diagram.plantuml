@@ -1,0 +1,48 @@
+@startuml
+
+state Input as "Get User Input"
+state ON as "Onborading"
+state Help as "Help"
+state Return as "Return Data"
+
+state CoinPrice as "Select Coin for Price"
+state CoinTime as "Select Time"
+
+state Chart as "Select Coin for Chart"
+state SelectChart as "Select Chart Type"
+state ChartTimePeriod as "Select Time Period"
+
+state Notif as "Select Coin to Get Notification"
+state Min as "Select Minimum Price"
+state Max as "Select Maximum Price"
+
+[*] --> Input
+Input --> ON: /Start
+Input --> Help: /Help
+Input --> CoinPrice: /Price
+Input --> Chart: /Chart
+Input --> Notif: /Notification
+Input -> [*]: Stop application
+
+Help --> Input: Auto
+ON --> Input: Auto
+
+CoinPrice --> CoinTime: Select
+CoinTime --> CoinPrice: Back
+CoinTime --> Return: Select
+
+
+Chart --> SelectChart: Select
+SelectChart --> Chart: Back
+SelectChart --> ChartTimePeriod: Select
+ChartTimePeriod --> SelectChart: Back
+ChartTimePeriod --> Return: Select
+
+Notif --> Min: Select
+Min --> Notif: Back
+Min --> Max: Select
+Max --> Min: Back
+Max --> Return: Select
+
+Return -left-> Input: Auto
+@enduml
