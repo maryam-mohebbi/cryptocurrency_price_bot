@@ -1,0 +1,26 @@
+@startuml
+rectangle Draw Chart{
+start
+:Get User Input;
+if (Input = /Chart) then (Yes)
+  repeat:Select Coin;
+  repeat while(Do you need comparison charts?) is (Yes) not (No)
+  
+  repeat:Select type of the chart;
+  backward :Show Error;
+  repeat while(Is the input valid?) is (No) not (Yes)
+ 
+  repeat:Select Time Period;
+  backward :Show Error;
+  repeat while(Is it a valid time period?) is (No) not (Yes)
+
+  :Show Chart;
+else (No)
+  if (Is input a valid command) then (Yes)
+   :Do Another Activity;
+  else (No)
+  :Show Error;
+  endif
+endif
+stop
+@enduml

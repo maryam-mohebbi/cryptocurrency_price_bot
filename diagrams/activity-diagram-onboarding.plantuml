@@ -1,0 +1,11 @@
+@startuml
+rectangle Onboarding{
+start
+repeat :Get User Input;
+  backward :Show Error;
+
+repeat while (Input = /Start) is (no)
+->yes;
+:Show Price List;
+stop
+@enduml

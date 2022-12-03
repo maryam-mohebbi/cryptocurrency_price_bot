@@ -1,0 +1,15 @@
+@startuml
+rectangle Request Help{
+start
+:Get User Input;
+if (Input = /Help) then (Yes)
+  :Show Command List;
+else (No)
+  if (Is Input a Valid Command) then (Yes)
+   :Do Another Activity;
+  else (No)
+  :Show Error;
+  endif
+endif
+stop
+@enduml
