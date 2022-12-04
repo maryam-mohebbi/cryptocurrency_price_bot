@@ -1,0 +1,48 @@
+@startuml
+
+package "Core" {
+  [Python Core Service]
+}
+package "User Gateway" {
+  [Telegram Bot]
+  [Web Server]
+}
+package "Data" {
+  [Data Service]
+  database "Snowflake"{
+  }
+}
+package "Accounting" {
+  database "AccountingDB" {
+  }
+  [Accounting Service]
+}
+package "Marketplace" {
+  [Marketplace Service]
+}
+
+cloud {
+  [Binance]
+  [Coinbase]
+}
+cloud {
+  [Google Analytics]
+}
+cloud {
+  [Telegram]
+  [Web]
+}
+
+[Web] <--> [Web Server]
+[Telegram] <--> [Telegram Bot]
+[Python Core Service] <-up-> [Web Server]
+[Python Core Service] <-up-> [Telegram Bot]
+[Python Core Service] <--> [Data Service]
+[Python Core Service] <--> [Accounting Service]
+[Python Core Service] <--> [Marketplace Service]
+
+[Data Service] --> [Google Analytics]
+[Marketplace Service] --> [Coinbase]
+[Marketplace Service] --> [Binance]
+
+@enduml
