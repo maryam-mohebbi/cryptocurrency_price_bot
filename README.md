@@ -37,12 +37,12 @@ The
 I used
 <a href="https://sonarcloud.io/summary/overall?id=maryam-mohebbi_cryptocurrency_price_bot">Sonarcloud</a> and github action to calculate metrics for our project such as:
 
-Bugs: [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=maryam-mohebbi_cryptocurrency_price_bot&metric=bugs)](https://sonarcloud.io/summary/new_code?id=maryam-mohebbi_cryptocurrency_price_bot)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=maryam-mohebbi_cryptocurrency_price_bot&metric=bugs)](https://sonarcloud.io/summary/new_code?id=maryam-mohebbi_cryptocurrency_price_bot)
 
-Lines of Code: [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=maryam-mohebbi_cryptocurrency_price_bot&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=maryam-mohebbi_cryptocurrency_price_bot)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=maryam-mohebbi_cryptocurrency_price_bot&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=maryam-mohebbi_cryptocurrency_price_bot)
 
-Security Rating: [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=maryam-mohebbi_cryptocurrency_price_bot&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=maryam-mohebbi_cryptocurrency_price_bot)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=maryam-mohebbi_cryptocurrency_price_bot&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=maryam-mohebbi_cryptocurrency_price_bot)
 
-Vulnerabilities: [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=maryam-mohebbi_cryptocurrency_price_bot&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=maryam-mohebbi_cryptocurrency_price_bot)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=maryam-mohebbi_cryptocurrency_price_bot&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=maryam-mohebbi_cryptocurrency_price_bot)
 
-Duplicated Linesz: [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=maryam-mohebbi_cryptocurrency_price_bot&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=maryam-mohebbi_cryptocurrency_price_bot)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=maryam-mohebbi_cryptocurrency_price_bot&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=maryam-mohebbi_cryptocurrency_price_bot)
