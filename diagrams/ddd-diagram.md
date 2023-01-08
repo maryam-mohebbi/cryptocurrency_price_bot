@@ -4,7 +4,7 @@
 
 # Core Domain Chart
 
-![core-domain-chart](/diagrams/core-domain-chart "Core Domain Chart")
+![core-domain-chart](/diagrams/core-domain-chart.png "Core Domain Chart")
 
 # DDD diagram
 

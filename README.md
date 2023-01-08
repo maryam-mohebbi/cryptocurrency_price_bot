@@ -19,14 +19,16 @@ For this project, I have used three UML diagrams.
 
 ## 3. DDD
 
-The project has five domains.
+The project has six domains.
 
 <ul>
-<li>Core</li>
-<li>User Gateway</li>
-<li>Data</li>
+<li>User interaction</li>
 <li>Accounting</li>
-<li>Marketplace</li>
+<li>Cryptocurrency integration</li>
+<li>Notification</li>
+<li>Statistics</li>
+<li>Charts</li>
+
 </ul>
 
 The
