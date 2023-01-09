@@ -28,7 +28,6 @@ The project has six domains.
 <li>Notification</li>
 <li>Statistics</li>
 <li>Charts</li>
-
 </ul>
 
 The
