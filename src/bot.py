@@ -13,8 +13,9 @@ builder = ApplicationBuilder().token(BOT_TOKEN).build()
 
 
 async def start(update, context):
-    currencies = ['BTC', 'ETH', 'LTC', 'SOLAR', 'XMR',
-                  'TRX', 'BAT', 'MINA', 'ADA', 'DOGE', 'BNB']
+    currencies = ['BTC', 'ETH', 'LTC', 'XMR']
+#  , 'TRX', 'BAT', 'MINA', 'ADA', 'DOGE', 'BNB']
+
     currency_list = []
 
     for currency in currencies:
@@ -30,13 +31,25 @@ async def start(update, context):
         output = output + f'''{item['name']}: {item['price']}\n'''
 
     await update.message.reply_text(
+        f'''Hello!
+Top currency status are as below:
+
+{output}
+
+You always can use /help to see a list of available commands.'''
+    )
+
+
+async def help(update, context):
+    await update.message.reply_text(
         f'''
-        Hello! You always can use /help to see a list of available commands.
-        Top currency status are as below:
-        {output}
+Available commands:
+/help - List of available commands
+/start - Get rate of top currencies
         '''
     )
 
 
 builder.add_handler(CommandHandler('start', start))
+builder.add_handler(CommandHandler('help', help))
 builder.run_polling()
