@@ -1,5 +1,5 @@
 # from telegram import Update
-from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler
+from telegram.ext import ApplicationBuilder, CommandHandler
 import os
 import requests
 from telegram.ext import filters, MessageHandler
@@ -52,13 +52,24 @@ Available commands:
     )
 
 
+get_price_invoked = False
+
+
 async def get_price(update, context):
+    global get_price_invoked
+    get_price_invoked = True
     await update.message.reply_text(
-        f''' Which currency rate do you need?'''
+        f'Which currency rate do you need?'
     )
 
 
 async def find_price(update, context):
+    global get_price_invoked
+    if not get_price_invoked:
+        error_message = 'What do you want to do? Get /help for more information'
+        await update.message.reply_text(error_message)
+        return
+
     currency_name = update.message.text
     currency_name = currency_name.upper()
     endpoint = f"exchangerate/{currency_name}/USD"
@@ -74,6 +85,7 @@ async def find_price(update, context):
         await update.message.reply_text(
             f"Invalid currency name entered."
         )
+    get_price_invoked = False
 
 
 builder.add_handler(CommandHandler('start', start))
