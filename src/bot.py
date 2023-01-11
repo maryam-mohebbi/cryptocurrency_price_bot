@@ -1,8 +1,10 @@
-# from telegram import Update
-from telegram.ext import ApplicationBuilder, CommandHandler
+from telegram.ext import ApplicationBuilder, CommandHandler, filters, MessageHandler
 import os
 import requests
-from telegram.ext import filters, MessageHandler
+import matplotlib.pyplot as plt
+from PIL import Image
+from io import BytesIO
+from datetime import datetime
 
 
 BOT_TOKEN = os.environ.get('BOT_TOKEN')
@@ -48,6 +50,7 @@ Available commands:
 /help - List of available commands
 /start - Get rate of top currencies
 /getPrice - Select a coin and get its price
+/chart - Get a chart for selected coins
         '''
     )
 
@@ -88,11 +91,41 @@ async def find_price(update, context):
     get_price_invoked = False
 
 
+async def chart(update, context):
+    endpoint = f"exchangerate/BTC/USD/history?period_id=1DAY&time_start=2022-12-01T00:00:00"
+    response = requests.get(api_url + endpoint, headers=api_headers).json()
+
+    rate_closes = [item['rate_close'] for item in response]
+    time_closes = [item['time_close'].split(".")[0] for item in response]
+    time_closes = [datetime.strptime(
+        time_closes[i], '%Y-%m-%dT%H:%M:%S') for i in range(len(time_closes))]
+
+    plt.plot(rate_closes)
+    interval = 3
+    plt.xticks(range(0, len(time_closes), interval), [time_closes[i].strftime(
+        '%Y-%m-%d') for i in range(0, len(time_closes), interval)], rotation=90)
+    plt.xlabel('Period')
+    plt.ylabel('Rate Close')
+
+    # Save the chart to a memory buffer
+    buf = BytesIO()
+    plt.savefig(buf, format='png')
+    buf.seek(0)
+    im = Image.open(buf)
+
+    # Send the chart image to the user
+    buf.seek(0)
+    await context.bot.send_photo(chat_id=update.message.chat_id, photo=buf)
+
+
 builder.add_handler(CommandHandler('start', start))
 builder.add_handler(CommandHandler('help', help))
 builder.add_handler(CommandHandler('getPrice', get_price))
 find_price_handler = MessageHandler(
     filters.TEXT & (~filters.COMMAND), find_price)
 builder.add_handler(find_price_handler)
+
+chart_handler = CommandHandler('chart', chart)
+builder.add_handler(chart_handler)
 
 builder.run_polling()
