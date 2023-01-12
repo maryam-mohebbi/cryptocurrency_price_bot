@@ -1,10 +1,11 @@
+from datetime import datetime
+from io import BytesIO
+import matplotlib.pyplot as plt
 from telegram.ext import ApplicationBuilder, CommandHandler, filters, MessageHandler
 import os
 import requests
-import matplotlib.pyplot as plt
-from PIL import Image
-from io import BytesIO
-from datetime import datetime
+import matplotlib
+matplotlib.use('Agg')
 
 
 BOT_TOKEN = os.environ.get('BOT_TOKEN')
@@ -56,9 +57,10 @@ Available commands:
 
 
 get_price_invoked = False
+get_chart_invoked = False
 
 
-async def get_price(update, context):
+async def get_currency_for_price(update, context):
     global get_price_invoked
     get_price_invoked = True
     await update.message.reply_text(
@@ -66,13 +68,16 @@ async def get_price(update, context):
     )
 
 
-async def find_price(update, context):
-    global get_price_invoked
-    if not get_price_invoked:
-        error_message = 'What do you want to do? Get /help for more information'
-        await update.message.reply_text(error_message)
-        return
+async def get_currency_for_chart(update, context):
+    global get_chart_invoked
+    get_chart_invoked = True
+    await update.message.reply_text(
+        f'For which currency do you need a chart?'
+    )
 
+
+async def show_price(update, context):
+    global get_price_invoked
     currency_name = update.message.text
     currency_name = currency_name.upper()
     endpoint = f"exchangerate/{currency_name}/USD"
@@ -91,7 +96,9 @@ async def find_price(update, context):
     get_price_invoked = False
 
 
-async def chart(update, context):
+async def draw_chart(update, context):
+    global get_chart_invoked
+
     endpoint = f"exchangerate/BTC/USD/history?period_id=1DAY&time_start=2022-12-01T00:00:00"
     response = requests.get(api_url + endpoint, headers=api_headers).json()
 
@@ -110,22 +117,32 @@ async def chart(update, context):
     # Save the chart to a memory buffer
     buf = BytesIO()
     plt.savefig(buf, format='png')
-    buf.seek(0)
-    im = Image.open(buf)
 
     # Send the chart image to the user
     buf.seek(0)
     await context.bot.send_photo(chat_id=update.message.chat_id, photo=buf)
+    get_chart_invoked = False
+
+
+async def find_function(update, context):
+    global get_price_invoked
+    global get_chart_invoked
+    if get_price_invoked:
+        await show_price(update, context)
+    elif get_chart_invoked:
+        await draw_chart(update, context)
+    else:
+        error_message = 'What do you want to do? Get /help for more information'
+        await update.message.reply_text(error_message)
+        return
 
 
 builder.add_handler(CommandHandler('start', start))
 builder.add_handler(CommandHandler('help', help))
-builder.add_handler(CommandHandler('getPrice', get_price))
-find_price_handler = MessageHandler(
-    filters.TEXT & (~filters.COMMAND), find_price)
-builder.add_handler(find_price_handler)
+builder.add_handler(CommandHandler('getPrice', get_currency_for_price))
+builder.add_handler(CommandHandler('chart', get_currency_for_chart))
 
-chart_handler = CommandHandler('chart', chart)
-builder.add_handler(chart_handler)
+find_handler = MessageHandler(filters.TEXT & (~filters.COMMAND), find_function)
+builder.add_handler(find_handler)
 
 builder.run_polling()
