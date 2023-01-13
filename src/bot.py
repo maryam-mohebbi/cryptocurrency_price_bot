@@ -25,12 +25,13 @@ async def start(update, context):
     currency_list = []
 
     for currency in currencies:
-        endpoint = f"exchangerate/{currency}/USD"
+        endpoint = f'exchangerate/{currency}/USD'
         response = requests.get(api_url + endpoint, headers=api_headers).json()
-        name = response["asset_id_base"]
-        price = response["rate"]
-        price_formatted = "${:,.2f}".format(price)
-        currency_list.append({'name': name, 'price': price_formatted})
+        currency_name = response['asset_id_base']
+        currency_price = response['rate']
+        currency_price_formatted = '${:,.2f}'.format(currency_price)
+        currency_list.append(
+            {'name': currency_name, 'price': currency_price_formatted})
 
     output = ''
     for item in currency_list:
@@ -82,18 +83,18 @@ async def show_price(update, context):
     global get_price_invoked
     currency_name = update.message.text
     currency_name = currency_name.upper()
-    endpoint = f"exchangerate/{currency_name}/USD"
+    endpoint = f'exchangerate/{currency_name}/USD'
     try:
         response = requests.get(api_url + endpoint, headers=api_headers).json()
-        name = response["asset_id_base"]
-        price = response["rate"]
-        price_formatted = "${:,.2f}".format(price)
+        currency_name = response['asset_id_base']
+        currency_price = response['rate']
+        currency_price_formatted = '${:,.2f}'.format(currency_price)
         await update.message.reply_text(
-            f"The price of {name} is {price_formatted}."
+            f'The price of {currency_name} is {currency_price_formatted}.'
         )
     except:
         await update.message.reply_text(
-            f"Invalid currency name entered."
+            f'Invalid currency name entered.'
         )
     get_price_invoked = False
 
@@ -104,12 +105,12 @@ async def draw_chart(update, context):
     currency_name = update.message.text
     currency_name = currency_name.upper()
     three_months = date.today() - relativedelta(months=+3)
-    endpoint = f"exchangerate/{currency_name}/USD/history?period_id=1DAY&time_start={three_months}T00:00:00"
+    endpoint = f'exchangerate/{currency_name}/USD/history?period_id=1DAY&time_start={three_months}T00:00:00'
 
     try:
         response = requests.get(api_url + endpoint, headers=api_headers).json()
         rate_closes = [item['rate_close'] for item in response]
-        time_closes = [item['time_close'].split(".")[0] for item in response]
+        time_closes = [item['time_close'].split('.')[0] for item in response]
         time_closes = [datetime.strptime(
             time_closes[i], '%Y-%m-%dT%H:%M:%S') for i in range(len(time_closes))]
 
@@ -137,7 +138,7 @@ async def draw_chart(update, context):
 
     except:
         await update.message.reply_text(
-            f"Invalid currency name entered."
+            f'Invalid currency name entered.'
         )
     get_chart_invoked = False
 
