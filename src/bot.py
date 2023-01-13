@@ -1,3 +1,4 @@
+import traceback
 from dateutil.relativedelta import relativedelta
 from datetime import date
 from datetime import datetime
@@ -10,23 +11,43 @@ import matplotlib
 matplotlib.use('Agg')
 
 
-BOT_TOKEN = os.environ.get('BOT_TOKEN')
-X_COINAPI_KEY = os.environ.get('X_COINAPI_KEY')
-api_url = 'https://rest.coinapi.io/v1/'
-api_headers = {'X-CoinAPI-Key': X_COINAPI_KEY}
+def get_config(config_name):
+    return os.environ.get(config_name)
+
+
+BOT_TOKEN = get_config('BOT_TOKEN')
+X_COINAPI_KEY = get_config('X_COINAPI_KEY')
+API_URL = get_config('API_URL')
 
 builder = ApplicationBuilder().token(BOT_TOKEN).build()
 
 
+def get_exchange_rate(currency_name):
+    endpoint = f'exchangerate/{currency_name}/USD'
+    response = coinapi_request(endpoint)
+    return response
+
+
+def get_exchange_rate_history(currency_name, start_date):
+    endpoint = f'exchangerate/{currency_name}/USD/history?period_id=1DAY&time_start={start_date}T00:00:00'
+    response = coinapi_request(endpoint)
+    return response
+
+
+def coinapi_request(endpoint):
+    api_headers = {'X-CoinAPI-Key': X_COINAPI_KEY}
+    response = requests.get(API_URL + endpoint, headers=api_headers).json()
+    return response
+
+
 async def start(update, context):
-    currencies = ['BTC', 'ETH', 'LTC', 'XMR']
-#  , 'TRX', 'BAT', 'MINA', 'ADA', 'DOGE', 'BNB']
+    currencies = ['BTC', 'ETH', 'LTC', 'XMR',
+                  'TRX', 'BAT', 'MINA', 'ADA', 'DOGE', 'BNB']
 
     currency_list = []
 
-    for currency in currencies:
-        endpoint = f'exchangerate/{currency}/USD'
-        response = requests.get(api_url + endpoint, headers=api_headers).json()
+    for currency_code in currencies:
+        response = get_exchange_rate(currency_code)
         currency_name = response['asset_id_base']
         currency_price = response['rate']
         currency_price_formatted = '${:,.2f}'.format(currency_price)
@@ -83,9 +104,8 @@ async def show_price(update, context):
     global get_price_invoked
     currency_name = update.message.text
     currency_name = currency_name.upper()
-    endpoint = f'exchangerate/{currency_name}/USD'
     try:
-        response = requests.get(api_url + endpoint, headers=api_headers).json()
+        response = get_exchange_rate(currency_name)
         currency_name = response['asset_id_base']
         currency_price = response['rate']
         currency_price_formatted = '${:,.2f}'.format(currency_price)
@@ -93,6 +113,7 @@ async def show_price(update, context):
             f'The price of {currency_name} is {currency_price_formatted}.'
         )
     except:
+        traceback.print_exc()
         await update.message.reply_text(
             f'Invalid currency name entered.'
         )
@@ -104,11 +125,11 @@ async def draw_chart(update, context):
 
     currency_name = update.message.text
     currency_name = currency_name.upper()
-    three_months = date.today() - relativedelta(months=+3)
-    endpoint = f'exchangerate/{currency_name}/USD/history?period_id=1DAY&time_start={three_months}T00:00:00'
+    date_three_months_ago = date.today() - relativedelta(months=+3)
 
     try:
-        response = requests.get(api_url + endpoint, headers=api_headers).json()
+        response = get_exchange_rate_history(
+            currency_name, date_three_months_ago)
         rate_closes = [item['rate_close'] for item in response]
         time_closes = [item['time_close'].split('.')[0] for item in response]
         time_closes = [datetime.strptime(
@@ -126,7 +147,7 @@ async def draw_chart(update, context):
             '%Y-%m-%d') for i in range(0, len(time_closes), interval)], rotation=90)
         plt.xlabel('Period')
         plt.ylabel('Rate Close')
-        plt.title(f'{currency_name} rate changes from {three_months}')
+        plt.title(f'{currency_name} rate changes from {date_three_months_ago}')
 
         # Save the chart to a memory buffer
         buf = BytesIO()
@@ -137,6 +158,7 @@ async def draw_chart(update, context):
         await context.bot.send_photo(chat_id=update.message.chat_id, photo=buf)
 
     except:
+        traceback.print_exc()
         await update.message.reply_text(
             f'Invalid currency name entered.'
         )
