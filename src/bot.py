@@ -6,7 +6,7 @@ from io import BytesIO
 import matplotlib.pyplot as plt
 from telegram.ext import ApplicationBuilder, CommandHandler, filters, MessageHandler
 import os
-import requests
+from adapters import coinapi_adapter as exchange
 import matplotlib
 matplotlib.use('Agg')
 
@@ -19,25 +19,9 @@ BOT_TOKEN = get_config('BOT_TOKEN')
 X_COINAPI_KEY = get_config('X_COINAPI_KEY')
 API_URL = get_config('API_URL')
 
+exchange.setup(API_URL, X_COINAPI_KEY)
+
 builder = ApplicationBuilder().token(BOT_TOKEN).build()
-
-
-def get_exchange_rate(currency_name):
-    endpoint = f'exchangerate/{currency_name}/USD'
-    response = coinapi_request(endpoint)
-    return response
-
-
-def get_exchange_rate_history(currency_name, start_date):
-    endpoint = f'exchangerate/{currency_name}/USD/history?period_id=1DAY&time_start={start_date}T00:00:00'
-    response = coinapi_request(endpoint)
-    return response
-
-
-def coinapi_request(endpoint):
-    api_headers = {'X-CoinAPI-Key': X_COINAPI_KEY}
-    response = requests.get(API_URL + endpoint, headers=api_headers).json()
-    return response
 
 
 async def start(update, context):
@@ -47,7 +31,7 @@ async def start(update, context):
     currency_list = []
 
     for currency_code in currencies:
-        response = get_exchange_rate(currency_code)
+        response = exchange.get_exchange_rate(currency_code)
         currency_name = response['asset_id_base']
         currency_price = response['rate']
         currency_price_formatted = '${:,.2f}'.format(currency_price)
@@ -105,7 +89,7 @@ async def show_price(update, context):
     currency_name = update.message.text
     currency_name = currency_name.upper()
     try:
-        response = get_exchange_rate(currency_name)
+        response = exchange.get_exchange_rate(currency_name)
         currency_name = response['asset_id_base']
         currency_price = response['rate']
         currency_price_formatted = '${:,.2f}'.format(currency_price)
@@ -128,7 +112,7 @@ async def draw_chart(update, context):
     date_three_months_ago = date.today() - relativedelta(months=+3)
 
     try:
-        response = get_exchange_rate_history(
+        response = exchange.get_exchange_rate_history(
             currency_name, date_three_months_ago)
         rate_closes = [item['rate_close'] for item in response]
         time_closes = [item['time_close'].split('.')[0] for item in response]
