@@ -1,6 +1,6 @@
 # Python Clean Code Cheat Sheet
 
-## 1. DRY (Don't Repeat Yourself):
+## 1. DRY (Don't Repeat Yourself)
 
 This principle states that you should avoid repeating the same code or logic multiple times in your program. Instead, you should create reusable functions or classes that can be called multiple times.
 
@@ -12,7 +12,7 @@ Instead of writing the same print statement multiple times in your code, you can
 
 Instead of writing the same calculation code in multiple places in your program, you can create a function that does the calculation and call that function whenever you need to perform the calculation.
 
-## 2. KISS (Keep It Simple, Stupid):
+## 2. KISS (Keep It Simple, Stupid)
 
 This principle states that you should keep your code as simple and easy to understand as possible. Complex code can be hard to understand and debug, so it's best to keep things simple.
 
@@ -24,7 +24,7 @@ Instead of using a complex algorithm to calculate the average of a list of numbe
 
 Instead of using fancy, complex algorithms to sort a list of numbers, you can use a simple sorting algorithm like bubble sort.
 
-## 3. SOLID:
+## 3. SOLID
 
 This is a set of five principles that are meant to be followed together, and they are SRP, Open-Closed, Liskov Substitution, Interface Segregation and Dependency Inversion. These principles help to make your code more maintainable and scalable.
 
@@ -32,7 +32,7 @@ This is a set of five principles that are meant to be followed together, and the
 
 Instead of having a single class that performs multiple tasks, you can break it down into smaller classes each with a single responsibility.
 
-## 3.1 SRP (Single Responsibility Principle):
+## 3.1 SRP (Single Responsibility Principle)
 
 This principle states that each function or class in your code should have a single, specific responsibility.
 
@@ -40,7 +40,7 @@ This principle states that each function or class in your code should have a sin
 
 Instead of having a single function that both accepts user input and performs a calculation, you can create two separate functions: one for accepting input, and another for performing the calculation.
 
-## 3.2 Open-Closed Principle:
+## 3.2 Open-Closed Principle
 
 This principle states that a class or function should be open for extension but closed for modification. This means that you should be able to add new functionality to a class or function without modifying the existing code.
 
@@ -48,7 +48,7 @@ This principle states that a class or function should be open for extension but 
 
 Instead of modifying the existing "calculate_total" function to handle a new tax rate, you can create a new class called "TaxCalculator" that inherits from the original "calculate_total" class and overrides the appropriate methods.
 
-## 3.3 Liskov Substitution Principle:
+## 3.3 Liskov Substitution Principle
 
 This principle states that objects of a superclass should be able to be replaced with objects of a subclass without affecting the correctness of the program.
 
@@ -56,7 +56,7 @@ This principle states that objects of a superclass should be able to be replaced
 
 Instead of having separate classes for "Rectangle" and "Square", you can create a single "Shape" class with a "set_width" and "set_height" method, and then have "Square" inherit from "Shape" and override the "set_width" and "set_height" methods to ensure that the width and height are always equal.
 
-## 3.4 Interface Segregation Principle:
+## 3.4 Interface Segregation Principle
 
 This principle states that a class should not be forced to implement interfaces it doesn't use.
 
@@ -64,7 +64,7 @@ This principle states that a class should not be forced to implement interfaces 
 
 Instead of having a single "Automobile" interface that requires a class to implement methods for both driving on the road and flying in the air, you can create separate "RoadVehicle" and "AirVehicle" interfaces that each require a class to implement only the appropriate methods.
 
-## 3.5 Dependency Inversion Principle:
+## 3.5 Dependency Inversion Principle
 
 This principle states that high-level modules should not depend on low-level modules, but both should depend on abstractions.
 
@@ -72,7 +72,7 @@ This principle states that high-level modules should not depend on low-level mod
 
 Instead of having the "Order" class depend directly on the "Inventory" class, you can create an "InventoryService" interface that the "Order" class depends on, and then have the "Inventory" class implement that interface.
 
-## 4. YAGNI (You Ain’t Gonna Need It):
+## 4. YAGNI (You Ain’t Gonna Need It)
 
 This principle means that you should only write code that is needed for the current task at hand. Don't write code for future features that may never be needed.
 
@@ -98,7 +98,7 @@ This principle means that an object should only interact with its immediate neig
 
 Instead of having a class that directly accesses the properties of another class, it can have a method that returns the required information.
 
-## 7. Test-Driven Development (TDD):
+## 7. Test-Driven Development (TDD)
 
 This principle states that you should write automated tests for your code before you write the actual code. This helps to ensure that your code is working as expected and that any future changes do not break existing functionality.
 
@@ -106,7 +106,7 @@ This principle states that you should write automated tests for your code before
 
 Instead of writing the code for a new feature and then testing it manually, you can write a test that describes the expected behavior of the feature, and then write the code to make the test pass. This helps to catch any bugs early on and makes it easier to refactor your code without introducing new errors.
 
-## 8. Code Readability:
+## 8. Code Readability
 
 This principle means that the code should be easy to read and understand. This makes it easier for other people (or even yourself) to understand and modify the code.
 
@@ -118,7 +118,7 @@ Using meaningful variable names and comments to explain what the code is doing.
 
 Instead of using short variable names like "i" or "x", you should use descriptive variable names like "index" or "counter" that clearly indicate the purpose of the variable. Also, you should use appropriate indentation and whitespace to make your code more readable.
 
-## 9. Error Handling:
+## 9. Error Handling
 
 This principle states that you should anticipate and handle errors in your code to prevent unexpected behavior or crashes.
 
@@ -146,7 +146,7 @@ This principle means that the code should be optimized for performance.
 
 Instead of using a slow algorithm, you can use a faster algorithm that takes less time to run.
 
-## 12. Modularity:
+## 12. Modularity
 
 This principle states that you should break your code into small, independent modules that can be reused and combined in different ways.
 
@@ -154,7 +154,7 @@ This principle states that you should break your code into small, independent mo
 
 Instead of having a single large class that does everything, you can create smaller classes that each have a specific responsibility and can be used together to build the larger functionality.
 
-## 13. Naming Convention:
+## 13. Naming Convention
 
 This principle states that you should choose descriptive and consistent names for your variables, functions, and classes.
 
@@ -162,7 +162,7 @@ This principle states that you should choose descriptive and consistent names fo
 
 Instead of using variable names like "a" or "b", you should use meaningful names like "user_name" or "total_price" that clearly indicate the purpose of the variable. And also, use a consistent naming convention throughout your project, such as using camelCase for variable names.
 
-## 14. Code Review:
+## 14. Code Review
 
 This principle states that you should have other developers review your code before it is deployed to production. This helps to catch any errors or potential issues early on and also helps to spread knowledge about the codebase.
 
@@ -170,7 +170,7 @@ This principle states that you should have other developers review your code bef
 
 Instead of committing your code directly to the production branch, you can create a pull request and have other developers review your code and provide feedback. This helps to ensure that your code is of high quality and that any issues are identified and addressed before it is deployed.
 
-## 15. Comments:
+## 15. Comments
 
 This principle states that you should add comments to your code to explain what it is doing and how it works.
 
