@@ -13,9 +13,9 @@ A git repository was set up and I am going to use git features like branches, pu
 For this project, I have used three UML diagrams.
 
 <ul>
-<li> The <a href="https://github.com/maryam-mohebbi/cryptocurrency_price_bot/tree/main/diagrams/usecase.md">Usecase diagram</a> which shows the system's usecases and user stories.</li>
-<li> The <a href="https://github.com/maryam-mohebbi/cryptocurrency_price_bot/tree/main/diagrams/activity-diagram.md">Activity diagrams</a> which show flow diagrams, activity and the way they work for each usecase.</li>
-<li> The <a href="https://github.com/maryam-mohebbi/cryptocurrency_price_bot/tree/main/diagrams/state-diagram.md">State diagrams</a> which show state of the system in different conditions and different user input</li></ul>
+<li> The <a href='https://github.com/maryam-mohebbi/cryptocurrency_price_bot/tree/main/diagrams/usecase.md'>Usecase diagram</a> which shows the system's usecases and user stories.</li>
+<li> The <a href='https://github.com/maryam-mohebbi/cryptocurrency_price_bot/tree/main/diagrams/activity-diagram.md'>Activity diagrams</a> which show flow diagrams, activity and the way they work for each usecase.</li>
+<li> The <a href='https://github.com/maryam-mohebbi/cryptocurrency_price_bot/tree/main/diagrams/state-diagram.md'>State diagrams</a> which show state of the system in different conditions and different user input</li></ul>
 
 ## 3. DDD
 
@@ -31,12 +31,12 @@ The project has six domains.
 </ul>
 
 The
-<a href="https://github.com/maryam-mohebbi/cryptocurrency_price_bot/tree/main/diagrams/ddd-diagram.md">DDD diagram</a> shows how we separated our system to mentioned domains and how the domains are related  to each other.
+<a href='https://github.com/maryam-mohebbi/cryptocurrency_price_bot/tree/main/diagrams/ddd-diagram.md'>DDD diagram</a> shows how we separated our system to mentioned domains and how the domains are related  to each other.
 
 ## 4. Metrics
 
 I used
-<a href="https://sonarcloud.io/summary/overall?id=maryam-mohebbi_cryptocurrency_price_bot">Sonarcloud</a> and github action to calculate metrics for our project such as:
+<a href='https://sonarcloud.io/summary/overall?id=maryam-mohebbi_cryptocurrency_price_bot'>Sonarcloud</a> and github action to calculate metrics for our project such as:
 
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=maryam-mohebbi_cryptocurrency_price_bot&metric=bugs)](https://sonarcloud.io/summary/new_code?id=maryam-mohebbi_cryptocurrency_price_bot)
 
@@ -51,3 +51,5 @@ I used
 ## 5. Clean Code Development
 
 In the design part I used `autopep8` code formatters which follows most of the PEP 8 rolles.
+<a href='https://github.com/maryam-mohebbi/cryptocurrency_price_bot/blob/main/documents/cleancode.md'>Here</a> is some example as how I did to do clean code on my project
+Here is <a href='https://github.com/maryam-mohebbi/cryptocurrency_price_bot/blob/main/documents/clean-code-cheat-sheet.md'>Clean Code Sheat Sheet</a> that I provide.
