@@ -1,12 +1,10 @@
+from unittest.mock import patch
+from adapters.coinapi_adapter import setup, coinapi_request, get_exchange_rate, get_exchange_rate_history
+import adapters.coinapi_adapter
 import unittest
 
-import adapters.coinapi_adapter
-from adapters.coinapi_adapter import setup, coinapi_request, get_exchange_rate, get_exchange_rate_history
 
-from unittest.mock import patch
-
-
-class BotTest_setup(unittest.TestCase):
+class CoinApiTest_setup(unittest.TestCase):
     def test_should_verify_global_variables_are_correctly_set_based_on_input(self):
         # prepare
 
@@ -18,7 +16,7 @@ class BotTest_setup(unittest.TestCase):
         self.assertEqual(adapters.coinapi_adapter.X_COINAPI_KEY, 'test_key')
 
 
-class BotTest_coinapi_request(unittest.TestCase):
+class CoinApiTest_coinapi_request(unittest.TestCase):
     @patch('requests.get')
     def test_should_call_coinapi_and_return_correct_result(self, mock_get):
         # prepare
@@ -45,7 +43,7 @@ class BotTest_coinapi_request(unittest.TestCase):
             'test_endpoint', headers={'X-CoinAPI-Key': ''})
 
 
-class BotTest_get_exchange_rate(unittest.TestCase):
+class CoinApiTest_get_exchange_rate(unittest.TestCase):
     @patch('adapters.coinapi_adapter.coinapi_request')
     def test_should_check_api_to_call_values_to_include_correct_coin(self, mock_get):
         mock_get.return_value = {'BTC': 20000}
@@ -56,7 +54,7 @@ class BotTest_get_exchange_rate(unittest.TestCase):
         mock_get.assert_called_with('exchangerate/BTC/USD')
 
 
-class BotTest_get_exchange_rate_history(unittest.TestCase):
+class CoinApiTest_get_exchange_rate_history(unittest.TestCase):
     @patch('adapters.coinapi_adapter.coinapi_request')
     def test_should_check_api_to_call_values_to_include_correct_coin(self, mock_get):
         mock_get.return_value = {'BTC': 20000}

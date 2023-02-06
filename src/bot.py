@@ -164,26 +164,26 @@ async def find_function(update, context):
         await update.message.reply_text(error_message)
         return
 
+if __name__ == '__main__':
 
-BOT_TOKEN = get_config('BOT_TOKEN')
-X_COINAPI_KEY = get_config('X_COINAPI_KEY')
-API_URL = get_config('API_URL')
+    BOT_TOKEN = get_config('BOT_TOKEN')
+    X_COINAPI_KEY = get_config('X_COINAPI_KEY')
+    API_URL = get_config('API_URL')
 
-exchange.setup(API_URL, X_COINAPI_KEY)
+    exchange.setup(API_URL, X_COINAPI_KEY)
 
-builder = ApplicationBuilder().token(BOT_TOKEN).build()
+    builder = ApplicationBuilder().token(BOT_TOKEN).build()
 
+    get_price_invoked = False
+    get_chart_invoked = False
 
-get_price_invoked = False
-get_chart_invoked = False
+    builder.add_handler(CommandHandler('start', start))
+    builder.add_handler(CommandHandler('help', help))
+    builder.add_handler(CommandHandler('getPrice', get_currency_for_price))
+    builder.add_handler(CommandHandler('chart', get_currency_for_chart))
 
+    find_handler = MessageHandler(
+        filters.TEXT & (~filters.COMMAND), find_function)
+    builder.add_handler(find_handler)
 
-builder.add_handler(CommandHandler('start', start))
-builder.add_handler(CommandHandler('help', help))
-builder.add_handler(CommandHandler('getPrice', get_currency_for_price))
-builder.add_handler(CommandHandler('chart', get_currency_for_chart))
-
-find_handler = MessageHandler(filters.TEXT & (~filters.COMMAND), find_function)
-builder.add_handler(find_handler)
-
-builder.run_polling()
+    builder.run_polling()
