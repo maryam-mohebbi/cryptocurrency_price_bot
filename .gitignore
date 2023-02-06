@@ -3,6 +3,5 @@
 /bin
 /lib
 pyvenv.cfg
-/src/bot2.py
 __pycache__/
 /target
