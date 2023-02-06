@@ -15,15 +15,6 @@ def get_config(config_name):
     return os.environ.get(config_name)
 
 
-BOT_TOKEN = get_config('BOT_TOKEN')
-X_COINAPI_KEY = get_config('X_COINAPI_KEY')
-API_URL = get_config('API_URL')
-
-exchange.setup(API_URL, X_COINAPI_KEY)
-
-builder = ApplicationBuilder().token(BOT_TOKEN).build()
-
-
 async def start(update, context):
     currencies = ['BTC', 'ETH', 'LTC', 'XMR',
                   'TRX', 'BAT', 'MINA', 'ADA', 'DOGE', 'BNB']
@@ -62,10 +53,6 @@ Available commands:
 /chart - Get a chart for selected coin for past 3 months
         '''
     )
-
-
-get_price_invoked = False
-get_chart_invoked = False
 
 
 async def get_currency_for_price(update, context):
@@ -160,6 +147,19 @@ async def find_function(update, context):
         error_message = 'What do you want to do? Get /help for more information'
         await update.message.reply_text(error_message)
         return
+
+
+BOT_TOKEN = get_config('BOT_TOKEN')
+X_COINAPI_KEY = get_config('X_COINAPI_KEY')
+API_URL = get_config('API_URL')
+
+exchange.setup(API_URL, X_COINAPI_KEY)
+
+builder = ApplicationBuilder().token(BOT_TOKEN).build()
+
+
+get_price_invoked = False
+get_chart_invoked = False
 
 
 builder.add_handler(CommandHandler('start', start))
