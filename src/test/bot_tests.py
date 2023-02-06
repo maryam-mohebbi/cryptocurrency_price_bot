@@ -1,11 +1,6 @@
 import unittest
 from bot import get_config, format_currency, format_currency_name
-
-
 import os
-
-get_price_invoked = False
-get_chart_invoked = False
 
 
 class BotTest_get_config(unittest.TestCase):
