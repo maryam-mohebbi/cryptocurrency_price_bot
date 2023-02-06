@@ -98,7 +98,7 @@ This principle means that an object should only interact with its immediate neig
 
 Instead of having a class that directly accesses the properties of another class, it can have a method that returns the required information.
 
-## 7. Test-Driven Development (TDD)
+## 7. TDD (Test-Driven Development)
 
 This principle states that you should write automated tests for your code before you write the actual code. This helps to ensure that your code is working as expected and that any future changes do not break existing functionality.
 

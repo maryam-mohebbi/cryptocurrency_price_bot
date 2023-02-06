@@ -47,3 +47,7 @@ I used
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=maryam-mohebbi_cryptocurrency_price_bot&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=maryam-mohebbi_cryptocurrency_price_bot)
 
 [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=maryam-mohebbi_cryptocurrency_price_bot&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=maryam-mohebbi_cryptocurrency_price_bot)
+
+## 5. Clean Code Development
+
+In the design part I used `autopep8` code formatters which follows most of the PEP 8 rolles.
