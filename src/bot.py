@@ -15,6 +15,16 @@ def get_config(config_name):
     return os.environ.get(config_name)
 
 
+def format_currency(response):
+    currency_name = response['asset_id_base']
+    currency_price = response['rate']
+    return (currency_name, '${:,.2f}'.format(currency_price))
+
+
+def format_currency_name(text):
+    return text.upper()
+
+
 async def start(update, context):
     currencies = ['BTC', 'ETH', 'LTC', 'XMR',
                   'TRX', 'BAT', 'MINA', 'ADA', 'DOGE', 'BNB']
@@ -23,9 +33,7 @@ async def start(update, context):
 
     for currency_code in currencies:
         response = exchange.get_exchange_rate(currency_code)
-        currency_name = response['asset_id_base']
-        currency_price = response['rate']
-        currency_price_formatted = '${:,.2f}'.format(currency_price)
+        currency_name, currency_price_formatted = format_currency(response)
         currency_list.append(
             {'name': currency_name, 'price': currency_price_formatted})
 
@@ -73,13 +81,10 @@ async def get_currency_for_chart(update, context):
 
 async def show_price(update, context):
     global get_price_invoked
-    currency_name = update.message.text
-    currency_name = currency_name.upper()
+    currency_name = format_currency_name(update.message.text)
     try:
         response = exchange.get_exchange_rate(currency_name)
-        currency_name = response['asset_id_base']
-        currency_price = response['rate']
-        currency_price_formatted = '${:,.2f}'.format(currency_price)
+        currency_name, currency_price_formatted = format_currency(response)
         await update.message.reply_text(
             f'The price of {currency_name} is {currency_price_formatted}.'
         )
@@ -91,38 +96,49 @@ async def show_price(update, context):
     get_price_invoked = False
 
 
-async def draw_chart(update, context):
+def chart_data_process(response):
+    rate_closes = [item['rate_close'] for item in response]
+    time_closes = [item['time_close'].split('.')[0] for item in response]
+    time_closes = [datetime.strptime(
+        time_closes[i], '%Y-%m-%dT%H:%M:%S') for i in range(len(time_closes))]
+    return rate_closes, time_closes
+
+
+def plot_data(rate_closes, time_closes, currency_name, date_three_months_ago):
+    # Clean memory of past charts
+    plt.clf()
+
+    plt.plot(rate_closes)
+
+    # Show x-lab for every 7 days
+    interval = 7
+
+    plt.xticks(range(0, len(time_closes), interval), [time_closes[i].strftime(
+        '%Y-%m-%d') for i in range(0, len(time_closes), interval)], rotation=90)
+    plt.xlabel('Period')
+    plt.ylabel('Rate Close')
+    plt.title(f'{currency_name} rate changes from {date_three_months_ago}')
+
+    # Save the chart to a memory buffer
+    buf = BytesIO()
+    plt.savefig(buf, format='png')
+    return buf
+
+
+async def show_chart(update, context):
     global get_chart_invoked
 
-    currency_name = update.message.text
-    currency_name = currency_name.upper()
+    currency_name = format_currency_name(update.message.text)
     date_three_months_ago = date.today() - relativedelta(months=+3)
 
     try:
         response = exchange.get_exchange_rate_history(
             currency_name, date_three_months_ago)
-        rate_closes = [item['rate_close'] for item in response]
-        time_closes = [item['time_close'].split('.')[0] for item in response]
-        time_closes = [datetime.strptime(
-            time_closes[i], '%Y-%m-%dT%H:%M:%S') for i in range(len(time_closes))]
-
-        # Clean memory of past charts
-        plt.clf()
-
-        plt.plot(rate_closes)
-
-        # Show x-lab for every 7 days
-        interval = 7
-
-        plt.xticks(range(0, len(time_closes), interval), [time_closes[i].strftime(
-            '%Y-%m-%d') for i in range(0, len(time_closes), interval)], rotation=90)
-        plt.xlabel('Period')
-        plt.ylabel('Rate Close')
-        plt.title(f'{currency_name} rate changes from {date_three_months_ago}')
-
-        # Save the chart to a memory buffer
-        buf = BytesIO()
-        plt.savefig(buf, format='png')
+        rate_closes, time_closes = chart_data_process(response)
+        if not rate_closes:
+            raise ValueError('Invalid currency name entered.')
+        buf = plot_data(rate_closes, time_closes,
+                        currency_name, date_three_months_ago)
 
         # Send the chart image to the user
         buf.seek(0)
@@ -142,7 +158,7 @@ async def find_function(update, context):
     if get_price_invoked:
         await show_price(update, context)
     elif get_chart_invoked:
-        await draw_chart(update, context)
+        await show_chart(update, context)
     else:
         error_message = 'What do you want to do? Get /help for more information'
         await update.message.reply_text(error_message)
