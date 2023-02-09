@@ -1,5 +1,5 @@
 import unittest
-from bot import get_config, format_currency, format_currency_name
+from main import get_config, format_currency, format_currency_name
 import os
 
 

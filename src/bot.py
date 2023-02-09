@@ -4,15 +4,14 @@ from datetime import date
 from datetime import datetime
 from io import BytesIO
 import matplotlib.pyplot as plt
-from telegram.ext import ApplicationBuilder, CommandHandler, filters, MessageHandler
-import os
-from adapters import coinapi_adapter as exchange
 import matplotlib
+
+from adapters import coinapi_adapter as exchange
+from adapters import telegram_adapter as bot
 matplotlib.use('Agg')
 
-
-def get_config(config_name):
-    return os.environ.get(config_name)
+get_price_invoked = False
+get_chart_invoked = False
 
 
 def format_currency(response):
@@ -41,42 +40,34 @@ async def start(update, context):
     for item in currency_list:
         output = output + f'''{item['name']}: {item['price']}\n'''
 
-    await update.message.reply_text(
-        f'''Hello!
+    await bot.reply_text(update, f'''Hello!
 Top currency status are as below:
 
 {output}
 
-You always can use /help to see a list of available commands.'''
-    )
+You always can use /help to see a list of available commands.''')
 
 
 async def help(update, context):
-    await update.message.reply_text(
-        f'''
+    await bot.reply_text(update, f'''
 Available commands:
 /help - List of available commands
 /start - Get rate of top currencies
-/getPrice - Select a coin and get its price
+/price - Select a coin and get its price
 /chart - Get a chart for selected coin for past 3 months
-        '''
-    )
+        ''')
 
 
 async def get_currency_for_price(update, context):
     global get_price_invoked
     get_price_invoked = True
-    await update.message.reply_text(
-        f'Which currency rate do you need?'
-    )
+    await bot.reply_text(update, f'Which currency rate do you need?')
 
 
 async def get_currency_for_chart(update, context):
     global get_chart_invoked
     get_chart_invoked = True
-    await update.message.reply_text(
-        f'For which currency do you need a chart?'
-    )
+    await bot.reply_text(update, f'For which currency do you need a chart?')
 
 
 async def show_price(update, context):
@@ -85,14 +76,10 @@ async def show_price(update, context):
     try:
         response = exchange.get_exchange_rate(currency_name)
         currency_name, currency_price_formatted = format_currency(response)
-        await update.message.reply_text(
-            f'The price of {currency_name} is {currency_price_formatted}.'
-        )
+        await bot.reply_text(update, f'The price of {currency_name} is {currency_price_formatted}.')
     except:
         traceback.print_exc()
-        await update.message.reply_text(
-            f'Invalid currency name entered.'
-        )
+        await bot.reply_text(update, f'Invalid currency name entered.')
     get_price_invoked = False
 
 
@@ -142,13 +129,12 @@ async def show_chart(update, context):
 
         # Send the chart image to the user
         buf.seek(0)
-        await context.bot.send_photo(chat_id=update.message.chat_id, photo=buf)
+        await bot.reply_photo(update, photo=buf)
+        # await context.bot.send_photo(chat_id=update.message.chat_id, photo=buf)
 
     except:
         traceback.print_exc()
-        await update.message.reply_text(
-            f'Invalid currency name entered.'
-        )
+        await bot.reply_text(update, f'Invalid currency name entered.')
     get_chart_invoked = False
 
 
@@ -161,29 +147,31 @@ async def find_function(update, context):
         await show_chart(update, context)
     else:
         error_message = 'What do you want to do? Get /help for more information'
-        await update.message.reply_text(error_message)
+        await bot.reply_text(update, error_message)
         return
 
-if __name__ == '__main__':
 
-    BOT_TOKEN = get_config('BOT_TOKEN')
-    X_COINAPI_KEY = get_config('X_COINAPI_KEY')
-    API_URL = get_config('API_URL')
+def setup_bot(token):
+    builder = bot.setup(token)
+    bot.add_command_handler(builder, 'start', start)
+    bot.add_command_handler(builder, 'help', help)
+    bot.add_command_handler(builder, 'price', get_currency_for_price)
+    bot.add_command_handler(builder, 'chart', get_currency_for_chart)
 
-    exchange.setup(API_URL, X_COINAPI_KEY)
+    bot.add_message_handler(builder, find_function)
+    return builder
 
-    builder = ApplicationBuilder().token(BOT_TOKEN).build()
 
-    get_price_invoked = False
-    get_chart_invoked = False
+def setup_exchange(api_url, key):
+    exchange.setup(api_url, key)
 
-    builder.add_handler(CommandHandler('start', start))
-    builder.add_handler(CommandHandler('help', help))
-    builder.add_handler(CommandHandler('getPrice', get_currency_for_price))
-    builder.add_handler(CommandHandler('chart', get_currency_for_chart))
 
-    find_handler = MessageHandler(
-        filters.TEXT & (~filters.COMMAND), find_function)
-    builder.add_handler(find_handler)
+def start_bot(builder):
+    bot.start(builder)
 
-    builder.run_polling()
+
+def run(BOT_TOKEN, X_COINAPI_KEY, X_COINAPI_URL):
+    setup_exchange(X_COINAPI_URL, X_COINAPI_KEY)
+
+    builder = setup_bot(BOT_TOKEN)
+    start_bot(builder)
