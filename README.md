@@ -4,9 +4,9 @@
 
 This is an advanced software engineering project. This project should cover 11 different phases. This project is coding a telegram bot for getting the price of cryptocurrencies with some actions like getting charts or comparison coins.
 
-## 1. git
+## 1. Git
 
-A git repository was set up and I am going to use git features like branches, pull requests,s, and GitHub action for my project.
+A git repository was set up and I am going to use git features like branches, pull requests, and GitHub action for my project.
 
 ## 2. UML
 
@@ -21,14 +21,14 @@ For this project, I have used three UML diagrams.
 
 The project has six domains.
 
-<ul>
+<ol>
 <li>User interaction</li>
 <li>Accounting</li>
 <li>Cryptocurrency integration</li>
 <li>Notification</li>
 <li>Statistics</li>
 <li>Charts</li>
-</ul>
+</ol>
 
 The
 <a href='https://github.com/maryam-mohebbi/cryptocurrency_price_bot/tree/main/diagrams/ddd-diagram.md'>DDD diagram</a> shows how we separated our system into mentioned domains and how the domains are related to each other.
@@ -36,7 +36,7 @@ The
 ## 4. Metrics
 
 I used
-<a href='https://sonarcloud.io/summary/overall?id=maryam-mohebbi_cryptocurrency_price_bot'>Sonarcloud</a> and GitHub action to calculate metrics for our project such as:
+<a href='https://sonarcloud.io/summary/overall?id=maryam-mohebbi_cryptocurrency_price_bot'>SonarCloud</a> and GitHub action to calculate metrics for our project such as:
 
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=maryam-mohebbi_cryptocurrency_price_bot&metric=bugs)](https://sonarcloud.io/summary/new_code?id=maryam-mohebbi_cryptocurrency_price_bot)
 
@@ -50,7 +50,7 @@ I used
 
 ## 5. Clean Code Development
 
-In the design part, I used the `autopep8` code for matters which follow most of the PEP 8 roles.
+In the design part, I used the `autopep8` for matters which follow most of the PEP 8 roles.
 I also try to apply clean code rules on my project as we as possible. for example, - I used meaningful names for the functions and variables
 
 <ul>
@@ -62,27 +62,28 @@ I also try to apply clean code rules on my project as we as possible. for exampl
 
 <a href='https://github.com/maryam-mohebbi/cryptocurrency_price_bot/blob/main/documents/cleancode.md'>Here</a> is a sample of what I did. I also prepare a python <a href='https://github.com/maryam-mohebbi/cryptocurrency_price_bot/blob/main/documents/clean-code-cheat-sheet.md'>Clean Code Sheat Sheet</a>.
 
-# 6. Build Management
+## 6. Build Management
 
-I have used pybuilder for build management. The build file is available <a href='https://github.com/maryam-mohebbi/cryptocurrency_price_bot/blob/main/build.py'>here</a>. 
+I have used pybuilder for build management. The build file is available <a href='https://github.com/maryam-mohebbi/cryptocurrency_price_bot/blob/main/build.py'>here</a>.
+
 Build will be run with `pyb --verbose` command with detail of which tests passed and which ones fail and finally build was successful or not.
 
-# 7. Unit-Tests
+## 7. Unit-Tests
 
-I create some unit tests for my project. For being clear, I separated the test files based on my components. Test files are available in the `src/test` <a href='https://github.com/maryam-mohebbi/cryptocurrency_price_bot/tree/main/src/test'>folder</a>.
+I create some unit tests for my project. For being clear, I separated the test files based on my components. Test files are available in the `src/test` folder or directly from <a href='https://github.com/maryam-mohebbi/cryptocurrency_price_bot/tree/main/src/test'>here</a>.
 
-# 8. Continuous Delivery
+## 8. Continuous Delivery
 
 For the continuous delivery pipeline, I used GitHub Action. There are two workflows.
 
-<ul>
-<li>Metrics: Here I update the metrics via `SonarCloud`</li>
-<li>Build: Here I used `autopep8` as a linter and `pybuilder` for running the tests and building the project.</li>
-</ul>
+<ol>
+<li><b>Metrics:</b> Here I update the metrics via `SonarCloud`</li>
+<li><b>Build:</b> Here I used `autopep8` as a linter and `pybuilder` for running the tests and building the project.</li>
+</ol>
 
 The file available <a href='https://github.com/maryam-mohebbi/cryptocurrency_price_bot/blob/main/.github/workflows/build.yml'>here</a>.
 
-# 9. IDE:
+## 9. IDE:
 
 My favorite IDE is `Visual Studio Code`. I like it for use very easily, useful extensions, Git integration, and good plugins.I used these shortcuts more than others:
 
@@ -99,3 +100,18 @@ My favorite IDE is `Visual Studio Code`. I like it for use very easily, useful e
 <li>Command + V: Paste</li>
 <li>Command + N:  New File</li>
 </ul>
+
+## 10. DSL
+
+I created the <a href='https://github.com/maryam-mohebbi/cryptocurrency_price_bot/blob/main/documents/dsl.pseudo'>DSL</a> for the Chat Bot based a pseudocode language that describes the functionalities of the bot with a clear understandable language.
+
+## 11. Functional Programming
+
+Throughout the duration of this project, I made an effort to incorporate a functional programming approach as much as feasible.
+
+<ol>
+<li>All the functions in the code are side effect free. Examples can be found <a href='https://github.com/maryam-mohebbi/cryptocurrency_price_bot/blob/main/src/services/utils.py#L1'>here</a>.</li>
+<li>You can find examples of functions with parameters and return values <a href='https://github.com/maryam-mohebbi/cryptocurrency_price_bot/blob/main/src/adapters/coinapi_adapter.py#L26/'>here</a>.
+</li>
+<li>Examples of higher order functions can be found <a href='https://github.com/maryam-mohebbi/cryptocurrency_price_bot/blob/main/src/adapters/telegram_adapter.py#L9'>here</a>. I passed another function as input for this function to set it as callback.</li>
+</ol>
