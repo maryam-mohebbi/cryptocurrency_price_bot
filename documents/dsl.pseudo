@@ -1,0 +1,27 @@
+/price
+    prompt 'Which currency rate do you need?'
+    cryptocurrency = user_input
+    return 'The price of [cryptocurrency] is [price]'
+
+/chart
+    prompt 'For which currency do you need a chart?'
+    cryptocurrency = user_input
+    return 'Image for [cryptocurrency] price history diagram'
+
+/help
+    return 'Available commands:
+            /help - List of available commands
+            /start - Get rate of top currencies
+            /price - Select a coin and get its price
+            /chart - Get a chart for selected coin for past 3 months'
+
+/start
+    return 'Hello!
+            Top currency status are as below:
+
+            [cryptocurrency1]: [price]
+            [cryptocurrency2]: [price]
+            [cryptocurrency3]: [price]
+            [cryptocurrency4]: [price]
+
+            You always can use /help to see a list of available commands.'
