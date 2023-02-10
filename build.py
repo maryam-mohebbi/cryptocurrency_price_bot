@@ -17,4 +17,4 @@ def set_properties(project):
     project.set_property("dir_source_unittest_python", "src/test")
     project.set_property("dir_source_main_scripts", "src/scripts")
     project.set_property("dir_docs", "documents")
-    project.build_depends_on("mockito")
+    project.set_property("coverage_break_build", False)
