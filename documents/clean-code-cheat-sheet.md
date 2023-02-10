@@ -138,15 +138,7 @@ This principle means that the code should be written in such a way that it can b
 
 Creating a function for a specific task, that can be used in multiple parts of the program or in different programs.
 
-## 11. Performance
-
-This principle means that the code should be optimized for performance.
-
-### Example:
-
-Instead of using a slow algorithm, you can use a faster algorithm that takes less time to run.
-
-## 12. Modularity
+## 11. Modularity
 
 This principle states that you should break your code into small, independent modules that can be reused and combined in different ways.
 
@@ -154,7 +146,7 @@ This principle states that you should break your code into small, independent mo
 
 Instead of having a single large class that does everything, you can create smaller classes that each have a specific responsibility and can be used together to build the larger functionality.
 
-## 13. Naming Convention
+## 12. Naming Convention
 
 This principle states that you should choose descriptive and consistent names for your variables, functions, and classes.
 
@@ -162,7 +154,7 @@ This principle states that you should choose descriptive and consistent names fo
 
 Instead of using variable names like "a" or "b", you should use meaningful names like "user_name" or "total_price" that clearly indicate the purpose of the variable. And also, use a consistent naming convention throughout your project, such as using camelCase for variable names.
 
-## 14. Code Review
+## 13. Code Review
 
 This principle states that you should have other developers review your code before it is deployed to production. This helps to catch any errors or potential issues early on and also helps to spread knowledge about the codebase.
 
@@ -170,7 +162,7 @@ This principle states that you should have other developers review your code bef
 
 Instead of committing your code directly to the production branch, you can create a pull request and have other developers review your code and provide feedback. This helps to ensure that your code is of high quality and that any issues are identified and addressed before it is deployed.
 
-## 15. Comments
+## 14. Comments
 
 This principle states that you should add comments to your code to explain what it is doing and how it works.
 
